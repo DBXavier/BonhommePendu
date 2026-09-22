@@ -1,5 +1,4 @@
 using BonhommePendu.Models;
-using NuGet.Protocol.Plugins;
 
 namespace BonhommePendu.Events
 {
@@ -9,25 +8,24 @@ namespace BonhommePendu.Events
         public override string EventType { get { return "Guess"; } }
 
         // TODO: Compléter
-        public GuessEvent(GameData gameData, char letter) {
-            // TODO: Commencez par ICI
-
+        public GuessEvent(GameData gameData, char letter)
+        {
             Events = new List<GameEvent>();
 
             Events.Add(new GuessedLetterEvent(gameData, letter));
 
-            bool hasLetter = false;
+            bool foundAtLeastOneLetter = false;
 
-            for(int i = 0; i < gameData.RevealedWord.Length; i++)
+            for (int i = 0; i < gameData.RevealedWord.Length; i++)
             {
                 if (gameData.HasSameLetterAtIndex(letter, i))
                 {
-                    hasLetter = true;
+                    foundAtLeastOneLetter = true;
                     Events.Add(new RevealLetterEvent(gameData, letter, i));
                 }
             }
 
-            if (!hasLetter)
+            if (!foundAtLeastOneLetter)
             {
                 Events.Add(new WrongGuessEvent(gameData));
             }
