@@ -1,4 +1,5 @@
 using BonhommePendu.Models;
+using NuGet.Protocol.Plugins;
 
 namespace BonhommePendu.Events
 {
@@ -10,6 +11,26 @@ namespace BonhommePendu.Events
         // TODO: Compléter
         public GuessEvent(GameData gameData, char letter) {
             // TODO: Commencez par ICI
+
+            Events = new List<GameEvent>();
+
+            Events.Add(new GuessedLetterEvent(gameData, letter));
+
+            bool hasLetter = false;
+
+            for(int i = 0; i < gameData.RevealedWord.Length; i++)
+            {
+                if(letter == gameData.RevealedWord[i])
+                {
+                    hasLetter = true;
+                    Events.Add(new RevealLetterEvent(gameData, letter, i));
+                }
+            }
+
+            if (!hasLetter)
+            {
+                Events.Add(new WrongGuessEvent(gameData));
+            }
         }
     }
 }
