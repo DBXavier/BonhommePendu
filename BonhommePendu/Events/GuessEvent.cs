@@ -20,7 +20,7 @@ namespace BonhommePendu.Events
 
             for(int i = 0; i < gameData.RevealedWord.Length; i++)
             {
-                if(letter == gameData.RevealedWord[i])
+                if (gameData.HasSameLetterAtIndex(letter, i))
                 {
                     hasLetter = true;
                     Events.Add(new RevealLetterEvent(gameData, letter, i));
